@@ -9,7 +9,7 @@ import java.util.List;
 @Getter
 @Service
 @NoArgsConstructor
-public class HNTopicResponseDTO extends HNTopic {
+public class HNStoryResponseDTO extends HNStory {
     private List<Long> kids;
 
     @Override public String toString() {

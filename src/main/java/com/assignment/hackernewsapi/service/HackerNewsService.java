@@ -1,13 +1,11 @@
 package com.assignment.hackernewsapi.service;
 
-import com.assignment.hackernewsapi.model.datastore.HNComment;
-import com.assignment.hackernewsapi.model.datastore.HNCommentresponseDTO;
-import com.assignment.hackernewsapi.model.datastore.HNTopic;
-import com.assignment.hackernewsapi.model.datastore.HNTopicResponseDTO;
+import com.assignment.hackernewsapi.model.datastore.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Set;
 
@@ -18,20 +16,20 @@ public class HackerNewsService implements HackerNewsInterface {
     private HackerNewsCacheService hackerNewsCacheService;
 
 
-    @Override public List<HNTopic> getTopStories() {
-        List<HNTopicResponseDTO> topStories = hackerNewsCacheService.getTopStories();
-        List<HNTopic> hnTopics = new ArrayList<>();
+    @Override public List<HNStory> getTopStories() {
+        List<HNStoryResponseDTO> topStories = hackerNewsCacheService.getTopStories();
+        List<HNStory> hnStories = new ArrayList<>();
         topStories.stream().forEach(hnTopicResponseDTO -> {
-            HNTopic hnTopic = new HNTopic();
-            hnTopic.setId(hnTopicResponseDTO.getId());
-            hnTopic.setUrl(hnTopicResponseDTO.getUrl());
-            hnTopic.setTitle(hnTopicResponseDTO.getTitle());
-            hnTopic.setScore(hnTopicResponseDTO.getScore());
-            hnTopic.setBy(hnTopicResponseDTO.getBy());
-            hnTopic.setTime(hnTopicResponseDTO.getTime());
-            hnTopics.add(hnTopic);
+            HNStory hnStory = new HNStory();
+            hnStory.setId(hnTopicResponseDTO.getId());
+            hnStory.setUrl(hnTopicResponseDTO.getUrl());
+            hnStory.setTitle(hnTopicResponseDTO.getTitle());
+            hnStory.setScore(hnTopicResponseDTO.getScore());
+            hnStory.setBy(hnTopicResponseDTO.getBy());
+            hnStory.setTime(hnTopicResponseDTO.getTime());
+            hnStories.add(hnStory);
         });
-        return hnTopics;
+        return hnStories;
     }
 
     @Override public List<HNComment> getTopComments(Long storyId) {
@@ -42,27 +40,37 @@ public class HackerNewsService implements HackerNewsInterface {
             hnComment.setId(hnCommentresponseDTO.getId());
             hnComment.setBy(hnCommentresponseDTO.getBy());
             hnComment.setText(hnCommentresponseDTO.getText());
-            hnComment.setHnAge(hnCommentresponseDTO.getHnAge());
             hnComment.setTime(hnCommentresponseDTO.getTime());
-            hnComment.setHnHandle(hnComment.getHnHandle());
+            HNUser user = hackerNewsCacheService.getUser(hnCommentresponseDTO.getBy());
+            HNUserResponseDTO hnUserResponseDTO = new HNUserResponseDTO();
+
+            //TODO : To handle timezone
+            int currYear = Calendar.getInstance().get(Calendar.YEAR);
+            Calendar instance = Calendar.getInstance();
+            instance.setTimeInMillis(user.getCreated() * 1000);
+            int createdYear = instance.get(Calendar.YEAR);
+
+            hnUserResponseDTO.setHnAge(currYear - createdYear);
+            hnUserResponseDTO.setHnHandle(user.getId());
+            hnComment.setHnUser(hnUserResponseDTO);
             comments.add(hnComment);
         });
         return comments;
     }
 
-    @Override public ArrayList<HNTopic> getPastStories() {
+    @Override public ArrayList<HNStory> getPastStories() {
         Set<Long> pastStoryIds = hackerNewsCacheService.getPastStoryIds();
-        ArrayList<HNTopic> pastStories = new ArrayList<>();
+        ArrayList<HNStory> pastStories = new ArrayList<>();
         for(Long storyId : pastStoryIds){
-            HNTopicResponseDTO story = hackerNewsCacheService.getStory(storyId);
-            HNTopic hnTopic = new HNTopic();
-            hnTopic.setId(story.getId());
-            hnTopic.setUrl(story.getUrl());
-            hnTopic.setTitle(story.getTitle());
-            hnTopic.setScore(story.getScore());
-            hnTopic.setBy(story.getBy());
-            hnTopic.setTime(story.getTime());
-            pastStories.add(hnTopic);
+            HNStoryResponseDTO story = hackerNewsCacheService.getStory(storyId);
+            HNStory hnStory = new HNStory();
+            hnStory.setId(story.getId());
+            hnStory.setUrl(story.getUrl());
+            hnStory.setTitle(story.getTitle());
+            hnStory.setScore(story.getScore());
+            hnStory.setBy(story.getBy());
+            hnStory.setTime(story.getTime());
+            pastStories.add(hnStory);
         }
         return pastStories;
     }

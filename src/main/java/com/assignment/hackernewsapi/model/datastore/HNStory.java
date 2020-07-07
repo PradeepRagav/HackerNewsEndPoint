@@ -7,7 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class HNTopic extends HNBaseModel {
+public class HNStory extends HNBaseModel {
     private String title;
     private String url;
     private Long score;

@@ -4,10 +4,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Getter
 @Setter
+@Getter
 @NoArgsConstructor
-public class HNUser {
-    private String id;
-    private Long created;
+public class HNUserResponseDTO {
+    String hnHandle;
+    Integer hnAge;
 }

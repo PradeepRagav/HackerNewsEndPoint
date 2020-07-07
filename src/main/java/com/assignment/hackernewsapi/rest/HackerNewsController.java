@@ -1,7 +1,7 @@
 package com.assignment.hackernewsapi.rest;
 
 import com.assignment.hackernewsapi.model.datastore.HNComment;
-import com.assignment.hackernewsapi.model.datastore.HNTopic;
+import com.assignment.hackernewsapi.model.datastore.HNStory;
 import com.assignment.hackernewsapi.service.HackerNewsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,7 +18,7 @@ public class HackerNewsController {
     private HackerNewsService hackerNewsService;
 
     @GetMapping(value ="/top-stories")
-    public List<HNTopic> getTopStories(){
+    public List<HNStory> getTopStories(){
         return hackerNewsService.getTopStories();
     }
 
@@ -28,7 +28,7 @@ public class HackerNewsController {
     }
 
     @GetMapping(value = "/past-stories")
-    public ArrayList<HNTopic> getPastStories(){
+    public ArrayList<HNStory> getPastStories(){
         return hackerNewsService.getPastStories();
     }
 }

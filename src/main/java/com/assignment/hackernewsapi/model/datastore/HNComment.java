@@ -9,10 +9,9 @@ import lombok.Setter;
 @NoArgsConstructor
 public class HNComment extends HNBaseModel {
     private String text;
-    private String hnHandle;
-    private Long hnAge;
+    private HNUserResponseDTO hnUser;
 
     @Override public String toString() {
-        return "HNComment{" + "text='" + text + '\'' + ", hnHandle='" + hnHandle + '\'' + ", hnAge=" + hnAge + '}';
+        return "HNComment{" + "text='" + text + '\'' + ", hnUser=" + hnUser + '}';
     }
 }

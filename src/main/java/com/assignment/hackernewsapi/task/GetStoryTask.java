@@ -1,6 +1,6 @@
 package com.assignment.hackernewsapi.task;
 
-import com.assignment.hackernewsapi.model.datastore.HNTopicResponseDTO;
+import com.assignment.hackernewsapi.model.datastore.HNStoryResponseDTO;
 import com.assignment.hackernewsapi.service.HackerNewsRestImpl;
 import lombok.AllArgsConstructor;
 import lombok.Setter;
@@ -21,7 +21,7 @@ public class GetStoryTask implements Callable {
     @Override public Object call() throws Exception {
 
         logger.info("Fetching storyId : {} ",storyId);
-        HNTopicResponseDTO story = hackerNewsRest.getStory(storyId);
+        HNStoryResponseDTO story = hackerNewsRest.getStory(storyId);
         logger.info("Done Fetching storyId : {} ",storyId);
         return story;
     }
