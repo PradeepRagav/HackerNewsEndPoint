@@ -33,9 +33,9 @@ public class UpdateTopStoriesTask implements Runnable {
         try {
             processTask();
         } catch (ExecutionException e) {
-            e.printStackTrace();
+            logger.error("Exception : ", e);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            logger.error("Exception : ", e);
         }
     }
 

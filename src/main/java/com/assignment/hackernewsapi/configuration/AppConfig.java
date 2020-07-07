@@ -43,16 +43,19 @@ public class AppConfig {
 
     @Bean
     public ScheduledExecutorService scheduledExecutorService(){
-        //TODO : Add configs
-        return Executors.newScheduledThreadPool(Integer.parseInt(environment.getProperty("scheduled.executor.service.pool.size")));
+        return Executors.
+            newScheduledThreadPool(Integer.parseInt(
+                environment.getProperty(ApplicationConstants.SCHEDULED_EXECUTOR_SERVICE_POOL_SIZE)));
     }
 
     @Bean
     public ExecutorService executorService(){
-        //TODO : Add configs
-        int corePoolSize = Integer.parseInt(environment.getProperty("executor.service.core.pool.size"));
-        int maxPoolSize = Integer.parseInt(environment.getProperty("executor.service.max.pool.size"));
-        long keepAliveTime = Integer.parseInt(environment.getProperty("executor.service.keep.alive.time"));
+        int corePoolSize = Integer.parseInt(
+            environment.getProperty(ApplicationConstants.EXECUTOR_SERVICE_POOL_SIZE));
+        int maxPoolSize = Integer.parseInt(
+            environment.getProperty(ApplicationConstants.EXECUTOR_SERVICE_MAX_POOL_SIZE));
+        long keepAliveTime = Integer.parseInt(
+            environment.getProperty(ApplicationConstants.EXECUTOR_SERVICE_KEEP_ALIVE_TIME));
 
         return  new ThreadPoolExecutor(
             corePoolSize,
